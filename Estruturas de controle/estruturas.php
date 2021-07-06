@@ -4,6 +4,9 @@
 	//
 	switch ($diaDaSemana) 
 	{
+		case '0':
+			echo " Hoje é Domingo <br>";
+			break;
 		case '1':
 			echo " Hoje é Segunda-feira <br>";
 			break;
@@ -11,16 +14,16 @@
 			echo " Hoje é Terça-feira <br>";
 			break;
 		case '3':
-			echo " Hoje é Quinta-feira <br>";
+			echo " Hoje é Quarta-feira <br>";
 			break;
 		case '4':
-			echo " Hoje é Sexta-feira <br>";
+			echo " Hoje é Quinta-feira <br>";
 			break;
 		case '5':
-			echo " Hoje é Sabado <br>";
+			echo " Hoje é Sexta-feira <br>";
 			break;
 		case '6':
-			echo " Hoje é Domingo <br>";
+			echo " Hoje é Sabado <br>";
 			break;
 		default:
 			echo "..... Erro do sistema na busca de uma data ....<br>";
