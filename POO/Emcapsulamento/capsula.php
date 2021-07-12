@@ -1,0 +1,4 @@
+capsula.php
+<?php
+	class 
+?>
