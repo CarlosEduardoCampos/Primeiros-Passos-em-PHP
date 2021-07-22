@@ -10,21 +10,21 @@
 			$this ->conect = new PDO("mysql:dbname=dbphp7;host=localhost","root","pass1386");
 		}
 
-		/* Aponta para as variaveis dos parametros que 
-		serâo adicionados no banco de dados */
-		private function setParam($key, $value)
-		{
-			$statment->bindParam($key, $value);
-		}
-
 		/* Percorre um array preparando os parametros para
 		executar o comando do banco de dados*/
 		private function setParams($statment, $paramets = array())
 		{
 			foreach ($paramets as $key => $value)
 			{
-				$this->setParam($key, $value);
+				$this->setParam($statment, $key, $value);
 			}
+		}
+
+		/* Aponta para as variaveis dos parametros que 
+		serâo adicionados no banco de dados */
+		private function setParam($statment, $key, $value)
+		{
+			$statment->bindParam($key, $value);
 		}
 
 		/* Conecta se com o banco e executa o comando predefinido */

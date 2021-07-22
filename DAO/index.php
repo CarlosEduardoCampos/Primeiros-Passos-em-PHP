@@ -1,10 +1,9 @@
 <?php
 	require_once("config.php");
 
-	// Objeto de interação ao banco MySQL
-	$sql = new Sql();
+	$root = new Usuario();
 
-	$userDados = $sql->select("SELECT * FROM tb_usuarios");
+	$root->loadByID(1);
 
-	echo json_encode($userDados);
+	echo $root;
 ?>
