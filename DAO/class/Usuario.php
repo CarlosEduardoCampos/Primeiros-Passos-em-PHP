@@ -62,15 +62,9 @@
 					":ID"=>$id
 				));
 			# Testa a existencia de dados no banco
-			if(isset($results))
+			if(count($results))
 			{
-				$row = $results[0];
-
-				# Carrega os dados do banco para o objeto
-				$this->setIdUsuario  ($row['idusuario']);
-				$this->setDesLogin   ($row['deslogin']);
-				$this->setDesSenha   ($row['dessenha']);
-				$this->setDtCadastro (new DateTime($row['dtcadastro']));
+				$this->setData($results[0]);
 			}
 		}
 
@@ -102,17 +96,66 @@
 			);
 			if(count($result) > 0)
 			{
-				$row = $result[0];
-
-				$this->setIdUsuario($row['idusuario']);
-				$this->setDesLogin ($row['deslogin']);
-				$this->setDesSenha ($row['dessenha']);
-				$this->setDtCadastro(new DateTime($row['dtcadastro']));
+				$this->setData($result[0]);
 			}
 			else{
 				throw new Exception(" Login e/ou senha inválidos. ");
 			}
 		}
+
+		# Carrega os dados do banco para o objeto
+		private function setData($data)
+		{
+			$this->setIdUsuario($data['idusuario']);
+			$this->setDesLogin ($data['deslogin']);
+			$this->setDesSenha ($data['dessenha']);
+			$this->setDtCadastro(new DateTime($data['dtcadastro']));
+		}
+
+		# Cadastra um novo usuario o banco de dados e devolve os dados
+		public function insert()
+		{
+			$sql = new Sql();
+			/* 
+			 * Utilisa de uma procedures nome:sp_usuarios_insert(:LOGIN,:PASSWORD)
+			 * pre definida no banco para devolver o id registrado apos o insert
+			*/
+			$result = $sql->select("CALL sp_usuarios_insert(:LOGIN, :PASSWORD)",
+				array(
+					':LOGIN' => $this->getDesLogin(),
+					':PASSWORD' => $this->getDesSenha()
+				)
+			);
+			
+			if(count($result) > 0)
+			{
+				$this->setData($result[0]);
+			}
+		}
+
+		public function update($login, $password)
+		{
+			$this->setDesLogin($login);
+			$this->setDesSenha($password);
+
+			$sql = new Sql();
+
+			$sql -> setquery(
+				"UPDATE tb_usuarios SET deslogin = :LOGIN, dessenha = :PASSAWORD WHERE idusuario = :ID",
+				array(
+					":LOGIN"   =>$this->getDesLogin(),
+					":PASSWORD"=>$this->getDesSenha(),
+					":ID"      =>$this->getIdUsuario()
+				)
+			);
+		}
+
+		public function __construct($login ="", $password="")
+		{
+			$this->setDesLogin($login);
+			$this->setDesSenha($password);
+		}
+
 		public function __toString()
 		{
 			return json_encode(array
