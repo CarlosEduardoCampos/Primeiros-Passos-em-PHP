@@ -35,8 +35,8 @@
 
 	$user->loadById(7);
 
-	$user->update("professor","#$@!%");
+	$user->setupdate("professor","#$@!%");
 
-	echo "$user";
+	echo $user;
 
 ?>

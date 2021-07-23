@@ -62,7 +62,7 @@
 					":ID"=>$id
 				));
 			# Testa a existencia de dados no banco
-			if(count($results))
+			if(count($results) > 0)
 			{
 				$this->setData($results[0]);
 			}
@@ -133,19 +133,18 @@
 			}
 		}
 
-		public function update($login, $password)
+		public function setupdate($login, $password)
 		{
 			$this->setDesLogin($login);
 			$this->setDesSenha($password);
 
 			$sql = new Sql();
 
-			$sql -> setquery(
-				"UPDATE tb_usuarios SET deslogin = :LOGIN, dessenha = :PASSAWORD WHERE idusuario = :ID",
+			$sql->setquery("UPDATE tb_usuarios SET deslogin = :LOGIN, dessenha = :PASSWORD WHERE idusuario = :ID",
 				array(
-					":LOGIN"   =>$this->getDesLogin(),
-					":PASSWORD"=>$this->getDesSenha(),
-					":ID"      =>$this->getIdUsuario()
+					':LOGIN' => $this->getDesLogin(),
+					':PASSWORD' => $this->getDesSenha(),
+					':ID' =>$this->getIdUsuario()
 				)
 			);
 		}
