@@ -53,6 +53,7 @@
 			$this->dtCadastro = $dtCadastro;
 		}
 
+		/** Busca as informações de um usuario pelo id e devolve um array(array)*/
 		public function loadById($id)
 		{
 			$sql = new Sql();
@@ -73,6 +74,45 @@
 			}
 		}
 
+		# Carrega uma lista de usuarios;
+		public static function getList()
+		{
+			$sql = new Sql();
+			return $sql->select("SELECT *FROM tb_usuarios ORDER BY deslogin;");
+		}
+
+		# Busca usuarios pelo login
+		public static function getSearch($login)
+		{
+			$sql = new Sql();
+			return $sql->select("SELECT * FROM tb_usuarios WHERE deslogin LIKE :SEARCH ORDER BY deslogin", array(
+				':SEARCH' => '%'.$login.'%'
+			));
+		}
+
+		# Busca usuarios apartir de login e senha do mesmo
+		public function login($login, $password)
+		{
+			$sql = new Sql();
+			$result= $sql->select("SELECT *FROM tb_usuarios WHERE deslogin = :LOGIN AND dessenha = :PASSW",
+				array(
+				':LOGIN' => $login,
+				':PASSW' => $password
+				)
+			);
+			if(count($result) > 0)
+			{
+				$row = $result[0];
+
+				$this->setIdUsuario($row['idusuario']);
+				$this->setDesLogin ($row['deslogin']);
+				$this->setDesSenha ($row['dessenha']);
+				$this->setDtCadastro(new DateTime($row['dtcadastro']));
+			}
+			else{
+				throw new Exception(" Login e/ou senha inválidos. ");
+			}
+		}
 		public function __toString()
 		{
 			return json_encode(array
