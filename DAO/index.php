@@ -30,12 +30,18 @@
 
 	echo $aluno;*/
 
-	# Modifica senha ou login ja cadastrado
-	$user = new Usuario();
+	# Modifica senha ou login ja cadastrado de um ususario
+	/*$user = new Usuario();
 
 	$user->loadById(7);
-
 	$user->setupdate("professor","#$@!%");
+
+	echo $user;*/
+
+	$user = new Usuario();
+
+	$user -> loadById(8);
+	$user -> DBdelete();
 
 	echo $user;
 
