@@ -46,6 +46,5 @@
 		else{
 			throw new Exception("Não foi possivel realizar o upload!");	
 		}
-		
 	}
 ?>
