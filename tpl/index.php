@@ -1,5 +1,28 @@
 <?php 
-	require_once("vendor/autoload.php");
+	require_once("vendor/autoload.php")
+	// namespace
+	use Rain\Tpl;
+
+	// config
+	$config = array(
+	    "tpl_dir"       => "tpl/",
+	    "cache_dir"     => "cache/"
+	);
+
+	Tpl::configure( $config );
+
+	// create the Tpl object
+	$tpl = new Tpl;
+
+	// assign a variable
+	$tpl->assign( "name", "Obi Wan Kenoby" );
+	$tpl->assign( "version", PHP_VERSION );
+
+	// assign an array
+	//$tpl->assign( "week", array( "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ) );
+
+	// draw the template
+	$tpl->draw( "index", true );
 
 	use PHPMailer\PHPMailer\PHPMailer;
 	use PHPMailer\PHPMailer\SMTP;
@@ -45,7 +68,7 @@
 	//Note that with gmail you can only use your account address (same as `Username`)
 	//or predefined aliases that you have configured within your account.
 	//Do not use user-submitted addresses in here
-	$mail->setFrom('c.com', 'Carlos');
+	$mail->setFrom('com', 'Carlos');
 
 	//Set an alternative reply-to address
 	//This is a good place to put user-submitted addresses
@@ -59,7 +82,7 @@
 
 	//Read an HTML message body from an external file, convert referenced images to embedded,
 	//convert HTML into a basic plain-text alternative body
-	$mail->msgHTML(file_get_contents('contents.html'), __FILE__);
+	$mail->msgHTML($html)
 
 	//Replace the plain text body with one created manually
 	$mail->AltBody = 'This is a plain-text message body';
@@ -96,5 +119,5 @@
 	    imap_close($imapStream);
 
 	    return $result;
-	}
+	
 ?>
